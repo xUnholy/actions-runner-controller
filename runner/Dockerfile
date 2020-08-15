@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+ARG TARGETPLATFORM
+
 ARG RUNNER_VERSION
 ARG DOCKER_VERSION
 
@@ -9,31 +11,31 @@ RUN apt update -y \
   && add-apt-repository -y ppa:git-core/ppa \
   && apt update -y \
   && apt install -y --no-install-recommends \
-     build-essential \
-     curl \
-     ca-certificates \
-     dnsutils \
-     ftp \
-     git \
-     iproute2 \
-     iputils-ping \
-     jq \
-     libunwind8 \
-     locales \
-     netcat \
-     openssh-client \
-     parallel \
-     rsync \
-     shellcheck \
-     sudo \
-     telnet \
-     time \
-     tzdata \
-     unzip \
-     upx \
-     wget \
-     zip \
-     zstd \
+  build-essential \
+  curl \
+  ca-certificates \
+  dnsutils \
+  ftp \
+  git \
+  iproute2 \
+  iputils-ping \
+  jq \
+  libunwind8 \
+  locales \
+  netcat \
+  openssh-client \
+  parallel \
+  rsync \
+  shellcheck \
+  sudo \
+  telnet \
+  time \
+  tzdata \
+  unzip \
+  upx \
+  wget \
+  zip \
+  zstd \
   && rm -rf /var/lib/apt/lists/*
 
 RUN curl -L -o docker.tgz https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz \
