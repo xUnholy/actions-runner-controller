@@ -37,8 +37,10 @@ RUN apt update -y \
   zstd \
   && rm -rf /var/lib/apt/lists/*
 
+# Docker download supports arm64 as aarch64
 RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) && \
-  curl -L -o docker.tgz https://download.docker.com/linux/static/stable/aarch64/docker-${DOCKER_VERSION}.tgz \
+  if [ "$ARCH" = "arm64" ]; then export ARCH=aarch64 ; fi && \
+  curl -L -o docker.tgz https://download.docker.com/linux/static/stable/${ARCH}/docker-${DOCKER_VERSION}.tgz \
   && tar zxvf docker.tgz \
   && install -o root -g root -m 755 docker/docker /usr/local/bin/docker \
   && rm -rf docker docker.tgz \
@@ -48,7 +50,9 @@ RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) && \
   && usermod -aG sudo runner \
   && echo "%sudo   ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers
 
+# Runner download supports amd64 as x64
 RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) && \
+  if [ "$ARCH" = "amd64" ]; then export ARCH=x64 ; fi && \
   mkdir -p /runner \
   && cd /runner \
   && curl -L -o runner.tar.gz https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${ARCH}-${RUNNER_VERSION}.tar.gz \
