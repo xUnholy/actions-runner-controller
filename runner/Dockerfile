@@ -1,8 +1,8 @@
 FROM ubuntu:18.04
 
 ARG TARGETPLATFORM
-ARG RUNNER_VERSION
-ARG DOCKER_VERSION
+ARG RUNNER_VERSION=2.272.0
+ARG DOCKER_VERSION=19.03.12
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update -y \
@@ -38,7 +38,7 @@ RUN apt update -y \
   && rm -rf /var/lib/apt/lists/*
 
 RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) && \
-  curl -L -o docker.tgz https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz \
+  curl -L -o docker.tgz https://download.docker.com/linux/static/stable/aarch64/docker-${DOCKER_VERSION}.tgz \
   && tar zxvf docker.tgz \
   && install -o root -g root -m 755 docker/docker /usr/local/bin/docker \
   && rm -rf docker docker.tgz \
